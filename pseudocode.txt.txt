@@ -1,0 +1,12 @@
+1. API Request Call comes from UI Client to get details of a particular record
+2. Accept the request from UI Client
+3. First run a query to search the record in the Azure Cosmos DB.
+4. If Record found, convert the record content into API Response Format and return it to UI Client
+5. If not found, initiate the Azure Function to do the following
+  a. Fetch the credentials for connecting to the Azure Cold Storage
+  b. Use the credentials to establish the connection.
+  c. Search for the required record in the Azure Cold Storage.
+  d. Retrieve the Record blob back to the server.
+  e. Convert the Blob content into API Response format
+  f. Return the Response back to the UI Client.
+6. If Record not found in the Azure Blob Storage as well, return a response to Client saying No Data Found
