@@ -1,0 +1,7 @@
+1) How do we push some data from azure cosmos db to azure cold storage after the data has lived for 3 months in azure cosmos db? And how do we retrieve the data from azure cold storage when needed?
+
+2) we want to use azure functions and cold storage and use managed identity instead of connection strings.
+
+3) Other references: https://search.app/uuvVh9sYnCrTexvJ8
+                     https://search.app/BRdnbda7o76UYJZy7
+                     https://gist.github.com/vikas-t/724da4a118612a8a8faf0acd5e4e4567
