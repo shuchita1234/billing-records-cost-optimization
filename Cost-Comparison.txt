@@ -1,0 +1,62 @@
+Parameter	        Value
+Average record size	300 KB
+Total records	        2,000,000
+Total data volume	~572 GB (300 KB × 2M = 600 GB,             actual size considering overhead = ~572 GB)
+Eligible for archive	Records older than 3 months (~75%)
+Cold archive target	1,500,000 records ≈ 430 GB
+--------------------------------------------------------
+
+Azure Cosmos DB Cost (Analytical Store Mode) – Before Archival
+
+Assume:
+
+You're using provisioned throughput with manual RU/s (~10,000 RU/s for a moderately read-heavy app).
+
+You pay for both storage and throughput.
+
+
+ ----Cosmos DB Storage Cost
+Metric	               Value
+Storage in GB	       600 GB
+Cost per GB	       $0.25/month
+Monthly Storage Cost    Cosmos DB RU Cost (Provisioned Throughput)
+Let’s assume:
+
+You use ~10,000 RU/s, which costs ≈ $0.008/hour per RU/s
+
+Metric	                Value
+Cost for 10,000 RU/s	$0.008 × 10,000
+Hourly cost	        $80
+Monthly (730 hrs)	        $58,400
+This is total RU/s cost; archival reduces the required RU/s by offloading old data reads.$143.00
+
+----------------------------------------------------
+After Archival to Azure Cold (Online Access Tier)
+--We'll push ~430 GB (75% of 572 GB) to Azure Blob Cold (Online) storage.
+
+Blob Storage Cost (Cool Tier)
+Metric	Value
+Data size	430 GB
+Storage Cost (Cool Tier)	$0.01–$0.02 per GB/month
+Monthly Blob Cost (cool)	~$6.45
+ Blob Access Cost
+Assume 1% access rate (occasional retrievals).
+
+Reads in cool tier ≈ $0.01 per 10,000 operations
+
+Assume 20K reads/month = $0.02
+
+Monthly Cost Comparison
+Component	Cosmos DB Only	Cosmos + Blob (Optimized)
+Cosmos DB Storage (572 GB)	$143.00	$35.75 (25% data)
+Cosmos DB RU/s (10K)	$58,400.00	$14,600.00 (assume 75% load reduction)
+Blob Storage (Cool, 430 GB)	N/A	$6.45
+Blob Read Ops (20K/month)	N/A	$0.02
+Total Monthly	~$58,543.00	~$14,642.22
+Monthly Cost Savings
+Savings = $58,543 - $14,642.22 ≈ $43,900+ per month
+
+ Annual Savings: ≈ $527,000+
+
+ i.e., >75% cost reduction	From ~$58K/month to ~$14K/month
+
